@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="left-panel">
+        <div class="left-panel">
+            <img src="{{ url_for('static', filename='png-cardapio.png') }}" alt="Descrição da Imagem" class="logo">
+        </div>
+
+        <form action="{{ url_for('index') }}"  method="post">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <span>
+                            {{ message }}
+                        </span><br><br>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <label for="usuario">E-mail:</label>
+            <input type="email" id="usuario" name="usuario" required>
+            
+            <label for="senha">password:</label>
+            <input type="password" id="senha" name="senha" required>
+            
+            <div class="button-container"> <!-- Contêiner para os botões -->
+                <button type="submit" class="login-button">Login</button> <!-- Botão de Login -->
+                <a href="{{ url_for('create_account') }}" style="text-decoration: none;">
+                    <button type="button" class="create-account-button">Create Account</button> <!-- Botão de Criar Conta -->
+                </a>
+            </div>
+        </form>   
+    </div>
+
+    <div class="right-panel">
+        <h1>My Recipe</h1>
+        <!-- Este espaço pode ser usado para outros conteúdos ou deixado vazio -->
+    </div>
+</body>
+</html>

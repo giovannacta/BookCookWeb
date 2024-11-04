@@ -1,0 +1,133 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+}
+
+.left-panel {
+    background-color: #E1523D;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: 20px;
+}
+
+.right-panel {
+    background-color: #ED8B16;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin: 50px 0;
+    color: white;
+}
+
+.logo {
+    width: 100px;
+    height: 100px;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+form {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border: none;
+}
+
+label {
+    margin-top: 10px;
+}
+
+input[type="email"], input[type="password"], input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 0 5px;
+    color: white;
+}
+
+.button-criar-conta:hover {
+    background-color:#4cae4c ;
+}
+
+.back-screen-button, .login-button, .create-account-button, .button-criar-conta {
+    background-color: #ccc;
+}
+
+.back-screen-button:hover, .login-button:hover {
+    background-color: #4cae4c;
+}
+
+.create-account-button:hover {
+    background-color: #d88c15;
+}
+
+.success-page, .create-account-page {
+    background-color: #ED8B16;
+    color: white;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #ccc;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.back-button:hover {
+    background-color: #E1523D;
+}
+
+.error {
+    color: red;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.success {
+    color: green;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}

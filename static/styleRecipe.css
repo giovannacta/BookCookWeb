@@ -1,0 +1,162 @@
+/* Configuração básica do corpo */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #ed8b16;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Seção para o título */
+.title-section {
+    grid-column: span 2; /* Ocupa toda a largura */
+    /* width: 100%; */
+    /* padding: 10px; */
+}
+
+.title-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 20px;
+    border: 2px solid #ff6347;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    box-sizing: border-box; /* Garante que o padding seja contado dentro do tamanho total */
+}
+
+/* Container principal */
+.container {
+    height: 85%; /* Aumentar um pouco a altura para acomodar o título */
+    background-color: #fff;
+    border-radius: 20px;
+    border: 2px solid #ff6347;
+    padding: 20px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.containerInfo {
+    background-color: #fff;
+    border-radius: 20px;
+    border: 2px solid #ff6347;
+    padding: 20px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Duas colunas */
+    gap: 20px;
+}
+
+/* Coluna da esquerda */
+.left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Placeholder de imagem */
+.image-placeholder {
+    height: 250px;
+    background-color: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+/* Ingredientes */
+.ingredients {
+    height: 100%;
+    background-color: #f0f0f0;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Títulos */
+h3 {
+    background-color: #ed8b16;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+    margin: 0;
+}
+
+/* tags */
+.tag {
+    padding: 5px;
+    text-align: center;
+    border-radius: 10px;
+    margin: 0;
+}
+
+/* Coluna da direita */
+.right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Tags e Tools organizadas horizontalmente */
+.tags-tools {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+/* Tags e Tools */
+.tags, .tools {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Botão de adição */
+.add-btn {
+    background-color: #ff9000;
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* Instruções */
+.instructions {
+    background-color: #f0f0f0;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Campo de texto nas instruções */
+textarea {
+    width: 100%;
+    height: 320px;
+    border: none;
+    resize: none;
+    font-size: 16px;
+    border-radius: 5px;
+    padding: 10px;
+    outline: none;
+    box-sizing: border-box;
+    margin-top: 15px;
+}
