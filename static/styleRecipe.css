@@ -1,56 +1,127 @@
-/* Configuração básica do corpo */
-html, body {
+* {
     margin: 0;
     padding: 0;
-    width: 100vw;
+    max-height: 100%;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Configuração básica do corpo */
+html {
     height: 100vh;
+    width: 100vw;
+} 
+
+body {
     background-color: #ed8b16;
+    height: 100%;
+    width: 100%;
+}
+
+form {
+    height: 80%;
+    width: 80%;
+}
+
+/* Títulos */
+h3 {
+    background-color: #ed8b16;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.center{
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+}
+
+/* Container principal */
+.container {
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    border: 2px solid #ff6347;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Seção para o título */
 .title-section {
     grid-column: span 2; /* Ocupa toda a largura */
-    /* width: 100%; */
-    /* padding: 10px; */
 }
 
 .title-input {
     width: 100%;
     padding: 10px;
+    background-color: #fff;
     font-size: 20px;
     border: 2px solid #ff6347;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    box-sizing: border-box; /* Garante que o padding seja contado dentro do tamanho total */
 }
 
-/* Container principal */
-.container {
-    height: 85%; /* Aumentar um pouco a altura para acomodar o título */
-    background-color: #fff;
-    border-radius: 20px;
-    border: 2px solid #ff6347;
-    padding: 20px;
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.title-input:focus {
+    outline: none;
 }
 
 .containerInfo {
+    height: 100%;
+    display: flex;
     background-color: #fff;
-    border-radius: 20px;
+    border-radius: 10px;
     border: 2px solid #ff6347;
     padding: 20px;
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Duas colunas */
     gap: 20px;
+}
+
+.buttons {
+    display: flex;
+    gap: 20px;
+
+    .button {
+        width: 100%;
+        border: none;
+        padding: 20px;
+        display: inline-block;
+        text-align: center;
+        background-color: #ccc;
+        color: white;
+        font-size: 20px;
+        text-decoration: none;
+        cursor: pointer;
+        border-radius: 10px;
+        transition: all ease-in-out 0.2s;
+    }
+
+    .return {
+        background-color:#ED8B16;
+    }
+
+    .return:hover {
+        background-color:#b36a11;
+    }
+
+    .delete {
+        background-color: #E1523D;
+    }
+
+    .delete:hover {
+        background-color: #ad3f2e;
+    }
+
+    .save {
+        background-color:#4cae4c;
+    }
+
+    .save:hover {
+        background-color:#377e37;
+    }
 }
 
 /* Coluna da esquerda */
@@ -58,16 +129,8 @@ html, body {
     display: flex;
     flex-direction: column;
     gap: 20px;
-}
-
-/* Placeholder de imagem */
-.image-placeholder {
-    height: 250px;
-    background-color: #ddd;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
+    width: 50%;
+    height: 100%;
 }
 
 /* Ingredientes */
@@ -79,25 +142,7 @@ html, body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    gap: 10px;
-}
-
-/* Títulos */
-h3 {
-    background-color: #ed8b16;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    border-radius: 10px;
-    margin: 0;
-}
-
-/* tags */
-.tag {
-    padding: 5px;
-    text-align: center;
-    border-radius: 10px;
-    margin: 0;
+    gap: 20px;
 }
 
 /* Coluna da direita */
@@ -105,35 +150,15 @@ h3 {
     display: flex;
     flex-direction: column;
     gap: 20px;
-}
-
-/* Tags e Tools organizadas horizontalmente */
-.tags-tools {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
+    width: 50%;
 }
 
 /* Tags e Tools */
 .tags, .tools {
+    width: 100%;
+    gap: 10px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
-
-/* Botão de adição */
-.add-btn {
-    background-color: #ff9000;
-    border: none;
-    color: white;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
 }
 
 /* Instruções */
@@ -141,22 +166,20 @@ h3 {
     background-color: #f0f0f0;
     padding: 15px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    flex: 1;
+    height: 100%;
     display: flex;
     flex-direction: column;
+    gap: 20px;
 }
 
-/* Campo de texto nas instruções */
+/* Campo de texto */
 textarea {
     width: 100%;
-    height: 320px;
+    height: 100%;
     border: none;
     resize: none;
     font-size: 16px;
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 10px;
     outline: none;
-    box-sizing: border-box;
-    margin-top: 15px;
 }

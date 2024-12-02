@@ -1,6 +1,4 @@
-# import os #aqui
 import pyrebase
-# from firebase_admin import credentials, firestore, db as realtime_db
 from flask import Flask, render_template, redirect, url_for, request, flash, jsonify
 
 # Configuração do Firebase para Realtime Database e Autenticação
@@ -40,7 +38,7 @@ def index():
             loggedUser = auth.sign_in_with_email_and_password(usuario, senha)
         except:
             # reload page
-            flash('Nome de usuário ou senha incorretos!')  # Mensagem de erro
+            flash('Username or password incorrect!')  # Mensagem de erro
             return redirect(url_for('index'))
 
         return redirect(url_for('home'))
@@ -68,7 +66,7 @@ def create_account():
 
         # Validação de senha
         if len(senha) < 6:
-            flash('<span class="error">The password must be at least 6 characters long.</span>')
+            flash('The password must be at least 6 characters long.')
             return render_template('create_account.html')
 
         # create data set
@@ -85,15 +83,15 @@ def create_account():
 
         except Exception as e:
             if "email" in str(e).lower() and "exists" in str(e).lower():
-                flash('<span class="error">Este e-mail já está cadastrado. Tente fazer login ou use outro e-mail.</span>')
+                flash('This email is already being used. Try logging in or use another email.')
                 return render_template('create_account.html')
             else:
-                flash('<span class="error">Something went wrong. Try again later</span>')
+                flash('Something went wrong. Try again later')
                 return render_template('create_account.html')
             
         db.child('users').child(user['localId']).set(data)
 
-        flash("Conta criada com sucesso!")
+        flash("Account created!")
         return redirect(url_for('index'))  # Redireciona para a página de login
     else:
         return render_template('create_account.html')
@@ -102,7 +100,8 @@ def create_account():
 # Página de receitas com busca (Firestore)  #aqui
 @app.route('/home', methods=['GET'])
 def home():
-    global loggedUser 
+    global loggedUser
+    loggedUser['idToken'] = auth.refresh(loggedUser['refreshToken'])['idToken']
 
     # Fetch all recipes
     recipes = db.child("users").child(loggedUser['localId']).child('recipes').get()
@@ -111,24 +110,43 @@ def home():
     return render_template("home.html", recipes=recipes.val())
     
 
-@app.route('/search', methods=['GET'])
+@app.route('/search', methods=['POST'])
 def search():
-    pass
     global loggedUser
+    loggedUser['idToken'] = auth.refresh(loggedUser['refreshToken'])['idToken']
+
+    matches = dict()
+    filtered = dict()
 
     search = request.form.get('search')
-    # recipes = db.child("users").child(loggedUser['localId']).child('recipes').equal_to(search).get()
-    recipes = db.child("users").child(loggedUser['localId']).child('recipes').order_by_child('name').equal_to(search).get()
-    print('--------------------------',recipes.val())
 
-    return render_template("home.html", recipes=recipes.val())
+    if search == '':
+        flash('No match found')
+        return redirect(url_for('home'))
+    
+    recipes = db.child("users").child(loggedUser['localId']).child('recipes').get()
+
+    for i in recipes.each():
+        if i.val()['title'].lower().find(search.lower()) != -1:
+            matches[i.key()] = i.val()['title']
+
+    if len(matches) == 0:
+        flash('No match found')
+        return redirect(url_for('home'))
+
+    for key in matches:
+        filtered[key] = recipes.val()[key]
+
+    return render_template("home.html", recipes=filtered)
 
 
 # Criação de receita e upload de imagem #aqui
 @app.route('/createRecipe', methods=['GET', 'POST'])
 def createRecipe():
+    global loggedUser
+    loggedUser['idToken'] = auth.refresh(loggedUser['refreshToken'])['idToken']
+
     if request.method == 'POST':
-        global loggedUser
         # fetch informations
         title = request.form.get('title')
         ingredients = request.form.get('ingredients')
@@ -142,8 +160,7 @@ def createRecipe():
             "ingredients": ingredients,
             "time": time,
             "instructions": instructions,
-            "category": category,
-            # "image_url": imageURL
+            "category": category
         }
 
         ingredients = []
@@ -151,9 +168,10 @@ def createRecipe():
         # Add recipe to user profile
         try:
             db.child("users").child(loggedUser['localId']).child('recipes').push(recipe_data, loggedUser['idToken'])
+            flash('Recipe created')
             return redirect(url_for('home'))
-        except Exception as e:
-            print("Erro ao salvar receita", e)
+        except :
+            flash("Error when creating the recipe")
             return redirect(url_for('home'))
     else:
         return render_template('createRecipe.html')
@@ -164,7 +182,7 @@ def createRecipe():
 @app.route('/edit_recipe/<recipe_id>', methods=['GET', 'POST'])
 def edit_recipe(recipe_id):
     global loggedUser
-    global deleteIngredients
+    loggedUser['idToken'] = auth.refresh(loggedUser['refreshToken'])['idToken']
 
     if request.method == 'POST':
         # Coleta os dados do formulário
@@ -185,10 +203,9 @@ def edit_recipe(recipe_id):
 
         try:
             db.child("users").child(loggedUser['localId']).child('recipes').child(recipe_id).update(updated_recipe_data, loggedUser['idToken'])
-            flash("Receita atualizada com sucesso!")
-        except Exception as e:
-            print("Erro ao atualizar receita:", e)
-            flash("Erro ao atualizar a receita.")
+            flash("Recipe updated!")
+        except:
+            flash("Error when updating the recipe.")
 
         return redirect(url_for('home'))
 
@@ -197,7 +214,7 @@ def edit_recipe(recipe_id):
         recipe = db.child("users").child(loggedUser['localId']).child('recipes').child(recipe_id).get()
 
         if recipe.val() is None:
-            flash("Receita não encontrada.")
+            flash("Recipe not found.")
             return redirect(url_for('home'))
 
         # Renderiza o template edit_recipe.html com os dados da receita
@@ -205,16 +222,17 @@ def edit_recipe(recipe_id):
         # return render_template("edit_recipe.html", recipe=recipe.val(), recipe_id=recipe_id)
     
 
-@app.route('/delete_recipe/<recipe_id>', methods=['POST'])
+@app.route('/delete_recipe/<recipe_id>', methods=['GET'])
 def delete_recipe(recipe_id):
     global loggedUser
+    loggedUser['idToken'] = auth.refresh(loggedUser['refreshToken'])['idToken']
 
     # Attempt to delete the recipe from Firebase
     try:
         db.child("users").child(loggedUser['localId']).child('recipes').child(recipe_id).remove(loggedUser['idToken'])
-        flash('Recipe deleted successfully.', 'success')
-    except Exception as e:
-        flash('An error occurred while deleting the recipe.', 'error')
+        flash('Recipe deleted successfully.')
+    except:
+        flash('An error occurred while deleting the recipe.')
 
     return redirect(url_for('home'))  # Redirect to the home page after deletion
     
